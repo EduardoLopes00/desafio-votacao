@@ -29,5 +29,8 @@ public class Vote {
     @Column(name="voted_at")
     private Date votedAt;
 
+    @Column(name="vote_option")
+    private int voteOption;
+
 
 }

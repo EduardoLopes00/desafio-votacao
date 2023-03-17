@@ -29,6 +29,9 @@ public class Section {
     @Column(name="created_at")
     private Date createdAt;
 
+    @Column(name="dt_start")
+    private Date dtStart;
+
     @Column(name="duration")
     private int duration;
 }

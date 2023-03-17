@@ -21,7 +21,7 @@ public class SectionDTO {
     private UUID id;
 
     @JsonProperty
-    private UUID pauta_id;
+    private UUID pautaId;
 
     @JsonProperty
     private int status;
@@ -30,18 +30,20 @@ public class SectionDTO {
     private Date createdAt;
 
     @JsonProperty
+    private Date dtStart;
+
+    @JsonProperty
     private int duration;
 
     public Section toModel() {
-        return Section.builder().id(this.id).createdAt(this.createdAt).status(this.status).duration(this.duration).build();
+        return Section.builder().id(this.id).createdAt(this.createdAt).dtStart(this.dtStart).status(this.status).duration(this.duration).build();
     }
 
     public Section toModel(Pauta pauta) {
-        return Section.builder().id(this.id).createdAt(this.createdAt).status(this.status).duration(this.duration).pauta(pauta).build();
+        return Section.builder().id(this.id).createdAt(this.createdAt).dtStart(this.dtStart).status(this.status).duration(this.duration).pauta(pauta).build();
     }
 
     public static SectionDTO fromModel(Section section) {
-        return SectionDTO.builder().id(section.getId()).createdAt(section.getCreatedAt()).pauta_id(section.getPauta().getId()).status(section.getStatus()).build();
+        return SectionDTO.builder().id(section.getId()).createdAt(section.getCreatedAt()).dtStart(section.getDtStart()).pautaId(section.getPauta().getId()).duration(section.getDuration()).status(section.getStatus()).build();
     }
-
 }
