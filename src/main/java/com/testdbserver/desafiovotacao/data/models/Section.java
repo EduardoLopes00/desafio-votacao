@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @NoArgsConstructor
@@ -18,11 +19,9 @@ public class Section {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(name="subject")
-    private String subject;
-
-    @Column(name="description")
-    private String description;
+    @ManyToOne
+    @JoinColumn(name="pauta_id")
+    private Pauta pauta;
 
     @Column(name="status")
     private int status;
