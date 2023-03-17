@@ -18,11 +18,11 @@ public class Vote {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column
+    @OneToOne
     @JoinColumn(name = "associate_id", nullable = false)
     private Associate associate;
 
-    @Column
+    @OneToOne
     @JoinColumn(name = "section_id", nullable = false)
     private Section section;
 
