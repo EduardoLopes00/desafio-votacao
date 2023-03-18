@@ -81,6 +81,20 @@ public class AssociateControllerTest {
                 .andExpect(status().isInternalServerError())
                 .andExpect(jsonPath("$.message").value("The system couldn't complete the action because the item already exists for data " + testingAssociate.getCpf()));
     }
+
+    @Test
+    public void shouldReturn500_WhenTryToCreateAssociateWithAnAlreadyExistsEmail() throws Exception {
+        Associate testingAssociate = AssociateMocks.DEFAULT_ASSOCIATE();
+
+        when(associateService.createAssociate(any (AssociateDTO.class))).thenThrow(new AlreadyExistsException(testingAssociate.getEmail()));
+
+        mockMvc.perform(post(basePath)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(TestUtilsFunctions.convertObjectToJSON(AssociateDTO.fromModel(testingAssociate))))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(status().isInternalServerError())
+                .andExpect(jsonPath("$.message").value("The system couldn't complete the action because the item already exists for data " + testingAssociate.getEmail()));
+    }
 }
 
 
