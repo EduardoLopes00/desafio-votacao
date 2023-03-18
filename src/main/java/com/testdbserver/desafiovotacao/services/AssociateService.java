@@ -2,6 +2,7 @@ package com.testdbserver.desafiovotacao.services;
 
 import com.testdbserver.desafiovotacao.data.models.Associate;
 import com.testdbserver.desafiovotacao.data.repositories.AssociateRepository;
+import com.testdbserver.desafiovotacao.infra.exceptions.AlreadyExistsException;
 import com.testdbserver.desafiovotacao.infra.exceptions.NotFoundException;
 import com.testdbserver.desafiovotacao.services.interfaces.AssociateServiceInterface;
 import com.testdbserver.desafiovotacao.web.DTO.AssociateDTO;
@@ -23,6 +24,10 @@ public class AssociateService implements AssociateServiceInterface {
 
     @Override
     public Associate createAssociate(AssociateDTO associateDTO) {
+        Associate existsAssociateCpf = associateRepository.findFirstByCpf(associateDTO.getCpf());
+
+        if (existsAssociateCpf != null) throw new AlreadyExistsException(existsAssociateCpf.getCpf());
+
         Associate newAssociate = associateRepository.saveAndFlush(associateDTO.toModel());
 
         return newAssociate;

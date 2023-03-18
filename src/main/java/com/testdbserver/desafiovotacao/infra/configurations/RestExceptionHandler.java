@@ -24,8 +24,8 @@ public class RestExceptionHandler {
     @ExceptionHandler(AlreadyExistsException.class)
     public ResponseEntity<ExceptionDTO> AlreadyExistsException(AlreadyExistsException e){
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
-                new ExceptionDTO(HttpStatus.BAD_REQUEST, e.getMessage())
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
+                new ExceptionDTO(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage())
         );
     }
 
