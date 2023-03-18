@@ -58,8 +58,6 @@ public class AssociateControllerTest {
 
         when(associateService.createAssociate(any(AssociateDTO.class))).thenReturn(testingAssociate);
 
-        //The convert to json function is working :)
-
         mockMvc.perform(post(basePath)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(TestUtilsFunctions.convertObjectToJSON(AssociateDTO.fromModel(testingAssociate)))).andDo(MockMvcResultHandlers.print())
