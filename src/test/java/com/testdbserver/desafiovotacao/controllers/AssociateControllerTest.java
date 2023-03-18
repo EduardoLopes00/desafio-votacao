@@ -1,6 +1,7 @@
 package com.testdbserver.desafiovotacao.controllers;
 
 import com.testdbserver.desafiovotacao.data.models.Associate;
+import com.testdbserver.desafiovotacao.infra.exceptions.AlreadyExistsException;
 import com.testdbserver.desafiovotacao.infra.exceptions.NotFoundException;
 import com.testdbserver.desafiovotacao.services.AssociateService;
 import com.testdbserver.desafiovotacao.utils.TestUtilsFunctions;
@@ -65,6 +66,20 @@ public class AssociateControllerTest {
                 .andExpect(jsonPath("$.id").isNotEmpty())
                 .andExpect(jsonPath("$.cpf").value(testingAssociate.getCpf()))
                 .andExpect(jsonPath("$.email").value(testingAssociate.getEmail()));
+    }
+
+    @Test
+    public void shouldReturn500_WhenTryToCreateAssociateWithAnAlreadyExistsCPF() throws Exception {
+        Associate testingAssociate = AssociateMocks.DEFAULT_ASSOCIATE();
+
+        when(associateService.createAssociate(any (AssociateDTO.class))).thenThrow(new AlreadyExistsException(testingAssociate.getCpf()));
+
+        mockMvc.perform(post(basePath)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(TestUtilsFunctions.convertObjectToJSON(AssociateDTO.fromModel(testingAssociate))))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(status().isInternalServerError())
+                .andExpect(jsonPath("$.message").value("The system couldn't complete the action because the item already exists for data " + testingAssociate.getCpf()));
     }
 }
 
