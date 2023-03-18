@@ -20,4 +20,11 @@ public class AssociateService implements AssociateServiceInterface {
     public Associate getAssociateById(UUID id) {
         return associateRepository.findById(id).orElseThrow(() -> new NotFoundException(id.toString())) ;
     }
+
+    @Override
+    public Associate createAssociate(AssociateDTO associateDTO) {
+        Associate newAssociate = associateRepository.saveAndFlush(associateDTO.toModel());
+
+        return newAssociate;
+    }
 }

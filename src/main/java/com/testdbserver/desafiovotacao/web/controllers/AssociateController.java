@@ -6,10 +6,7 @@ import com.testdbserver.desafiovotacao.web.DTO.AssociateDTO;
 import com.testdbserver.desafiovotacao.web.controllers.interfaces.AssociateControllerInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
@@ -22,9 +19,19 @@ public class AssociateController implements AssociateControllerInterface {
 
     @Override
     @GetMapping(value = "/{id}")
-    public ResponseEntity<AssociateDTO> getById(@PathVariable UUID id) {
+    public ResponseEntity<Associate> getById(@PathVariable UUID id) {
         Associate associate = associateService.getAssociateById(id);
 
-        return ResponseEntity.ok(AssociateDTO.fromModel(associate));
+        return ResponseEntity.ok(associate);
     }
+
+    @Override
+    @PostMapping()
+    public ResponseEntity<Associate> createAssociate(@RequestBody  AssociateDTO associateDTO) {
+        Associate newAssociate = associateService.createAssociate(associateDTO);
+
+        return ResponseEntity.status(201).body(newAssociate);
+    }
+
+
 }
