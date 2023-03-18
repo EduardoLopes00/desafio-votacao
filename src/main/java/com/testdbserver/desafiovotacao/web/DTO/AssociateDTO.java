@@ -2,6 +2,7 @@ package com.testdbserver.desafiovotacao.web.DTO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.testdbserver.desafiovotacao.data.models.Associate;
+import com.testdbserver.desafiovotacao.utils.UtilsFunctions;
 import jakarta.annotation.Nonnull;
 import lombok.*;
 
@@ -26,7 +27,7 @@ public class AssociateDTO {
     private String email;
 
     public Associate toModel() {
-        return Associate.builder().id(this.id).cpf(this.cpf).email(this.email).build();
+        return Associate.builder().id(this.id).cpf(UtilsFunctions.removeDotsHyphensSpacesFromString(this.cpf)).email(this.email).build();
     }
 
     public static AssociateDTO fromModel(Associate associate) {

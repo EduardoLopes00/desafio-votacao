@@ -8,4 +8,6 @@ import java.util.UUID;
 public interface AssociateRepository extends JpaRepository<Associate, UUID> {
 
     public Associate findFirstByCpf(String cpf);
+
+    public Associate findFirstByEmail(String email);
 }
