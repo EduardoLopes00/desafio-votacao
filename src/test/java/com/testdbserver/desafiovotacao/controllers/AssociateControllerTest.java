@@ -13,6 +13,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
+
 import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -54,12 +56,17 @@ public class AssociateControllerTest {
     public void shouldReturn201_WhenCreateANewAssociate() throws Exception {
         Associate testingAssociate = AssociateMocks.DEFAULT_ASSOCIATE();
 
-        when(associateService.createAssociate(AssociateDTO.fromModel(testingAssociate))).thenReturn(testingAssociate));
+        when(associateService.createAssociate(any(AssociateDTO.class))).thenReturn(testingAssociate);
+
+        //The convert to json function is working :)
 
         mockMvc.perform(post(basePath)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(TestUtilsFunctions.convertObjectToJSON(AssociateDTO.fromModel(testingAssociate))))
-                .andExpect(status().isCreated()).andExpect(jsonPath("$.id").value(testingAssociate.getId()));
+                .content(TestUtilsFunctions.convertObjectToJSON(AssociateDTO.fromModel(testingAssociate)))).andDo(MockMvcResultHandlers.print())
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.id").isNotEmpty())
+                .andExpect(jsonPath("$.cpf").value(testingAssociate.getCpf()))
+                .andExpect(jsonPath("$.email").value(testingAssociate.getEmail()));
     }
 }
 
