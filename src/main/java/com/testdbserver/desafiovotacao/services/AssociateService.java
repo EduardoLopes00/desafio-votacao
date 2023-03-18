@@ -33,7 +33,7 @@ public class AssociateService implements AssociateServiceInterface {
         return null;
     }
 
-    private boolean isValidAssociate(AssociateDTO associateDTO) {
+    protected boolean isValidAssociate(AssociateDTO associateDTO) {
         Associate existsAssociateCpf = associateRepository.findFirstByCpf(associateDTO.getCpf());
 
         if (existsAssociateCpf != null) throw new AlreadyExistsException(existsAssociateCpf.getCpf());
