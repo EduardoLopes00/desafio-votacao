@@ -59,7 +59,7 @@ public class AssociateServiceTest {
     }
 
     @Test
-    public void shouldThrowBadRequestException_WhenCreateAssociateWithExistingCPF() throws Exception {
+    public void shouldThrowInternalServerErrorException_WhenCreateAssociateWithExistingCPF() throws Exception {
         AssociateDTO testingAssociateDto = AssociateDTO.fromModel(AssociateMocks.DEFAULT_ASSOCIATE());
 
         when(associateService.isValidAssociate(testingAssociateDto)).thenThrow(new AlreadyExistsException(testingAssociateDto.getCpf()));
@@ -68,7 +68,7 @@ public class AssociateServiceTest {
     }
 
     @Test
-    public void shouldThrowBadRequestException_WhenCreateAssociateWithExistingEmail() throws Exception {
+    public void shouldThrowInternalServerErrorException_WhenCreateAssociateWithExistingEmail() throws Exception {
         AssociateDTO testingAssociateDto = AssociateDTO.fromModel(AssociateMocks.DEFAULT_ASSOCIATE());
 
         when(associateService.isValidAssociate(testingAssociateDto)).thenThrow(new AlreadyExistsException(testingAssociateDto.getEmail()));
