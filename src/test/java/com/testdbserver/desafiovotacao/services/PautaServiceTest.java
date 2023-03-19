@@ -41,9 +41,9 @@ public class PautaServiceTest {
     public void shouldThrowNotFoundException_WhenGetAssociateByIdThatNotExists() {
         UUID nonexistentPautaId = UUID.fromString("1691792f-af2f-48f3-a967-8caa1eee93d3");
 
-        when(pautaRepository.findById(nonexistentPautaId)).thenThrow(() -> new NotFoundException(nonexistentPautaId.toString()));
+        when(pautaRepository.findById(nonexistentPautaId)).thenThrow(new NotFoundException(nonexistentPautaId.toString()));
 
-        assertThrows(NotFoundException.class, pautaService.getPautaById(nonexistentPautaId));
+        assertThrows(NotFoundException.class, () -> pautaService.getPautaById(nonexistentPautaId));
     }
 }
 
