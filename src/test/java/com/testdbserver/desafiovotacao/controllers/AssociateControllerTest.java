@@ -36,7 +36,7 @@ public class AssociateControllerTest {
     private MockMvc mockMvc;
 
     @Test
-    public void shouldReturn200_WhenGetAssociateByIdThatExists() throws Exception {
+    public void shouldReturn200_WhenRequestGetAssociateByIdIsCalledWithExistingId() throws Exception {
         when(associateService.getAssociateById(AssociateMocks.DEFAULT_ASSOCIATE_ID)).thenReturn(AssociateMocks.DEFAULT_ASSOCIATE());
 
         mockMvc.perform(get(basePath + "/{id}", AssociateMocks.DEFAULT_ASSOCIATE_ID))
@@ -44,7 +44,7 @@ public class AssociateControllerTest {
     }
 
     @Test
-    public void shouldReturn404_WhenGetAssociateByIdThatNotExists() throws Exception {
+    public void shouldReturn404_WhenRequestGetAssociateByIdIsCalledWithNonexistentId() throws Exception {
         UUID nonexistentAssociateId = UUID.fromString("e12c92e6-c617-464b-9cd1-9c8fbd76a6b6");
 
         when(associateService.getAssociateById(nonexistentAssociateId)).thenThrow(new NotFoundException(nonexistentAssociateId.toString()));
@@ -54,7 +54,7 @@ public class AssociateControllerTest {
     }
 
     @Test
-    public void shouldReturn201_WhenCreateANewAssociate() throws Exception {
+    public void shouldReturn201_WhenRequestCreateAssociateWithValidData() throws Exception {
         Associate testingAssociate = AssociateMocks.DEFAULT_ASSOCIATE();
 
         when(associateService.createAssociate(any(AssociateDTO.class))).thenReturn(testingAssociate);
@@ -69,7 +69,7 @@ public class AssociateControllerTest {
     }
 
     @Test
-    public void shouldReturn500_WhenTryToCreateAssociateWithAnAlreadyExistsCPF() throws Exception {
+    public void shouldReturn500_WhenRequestCreateAssociateIsCalledWithExistingCPF() throws Exception {
         Associate testingAssociate = AssociateMocks.DEFAULT_ASSOCIATE();
 
         when(associateService.createAssociate(any (AssociateDTO.class))).thenThrow(new AlreadyExistsException(testingAssociate.getCpf()));
@@ -83,7 +83,7 @@ public class AssociateControllerTest {
     }
 
     @Test
-    public void shouldReturn500_WhenTryToCreateAssociateWithAnAlreadyExistsEmail() throws Exception {
+    public void shouldReturn500_WhenRequestCreateAssociateIsCalledWithExistingEmail() throws Exception {
         Associate testingAssociate = AssociateMocks.DEFAULT_ASSOCIATE();
 
         when(associateService.createAssociate(any (AssociateDTO.class))).thenThrow(new AlreadyExistsException(testingAssociate.getEmail()));

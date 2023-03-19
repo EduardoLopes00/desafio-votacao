@@ -29,7 +29,7 @@ public class AssociateServiceTest {
     private AssociateRepository associateRepository;
 
     @Test
-    public void shouldReturnAssociate_WhenGetAssociateByIdThatExists() throws Exception {
+    public void shouldReturnAssociate_WhenGetAssociateByIdIsCalledWithExistingId() throws Exception {
         when(associateRepository.findById(AssociateMocks.DEFAULT_ASSOCIATE_ID)).thenReturn(Optional.of(AssociateMocks.DEFAULT_ASSOCIATE()));
 
         Associate associateUT = associateService.getAssociateById(AssociateMocks.DEFAULT_ASSOCIATE_ID);
@@ -38,7 +38,7 @@ public class AssociateServiceTest {
     }
 
     @Test
-    public void shouldFailInReturnAssociate_WhenGetAssociateByIdThatNotExists() throws Exception {
+    public void shouldThrowNotFoundException_WhenGetAssociateByIdThatNotExists() throws Exception {
         UUID nonexistentAssociateId = UUID.fromString("e12c92e6-c617-464b-9cd1-9c8fbd76a6b6");
 
         when(associateRepository.findById(nonexistentAssociateId)).thenThrow(new NotFoundException(nonexistentAssociateId.toString()));
@@ -47,7 +47,7 @@ public class AssociateServiceTest {
     }
 
     @Test
-    public void shouldCreateAssociate_WhenPassCorrectDataThatDoesntExists() throws Exception {
+    public void shouldCreateAssociate_WhenCreateAssociateWithValidData() throws Exception {
         Associate testingAssociate = AssociateMocks.DEFAULT_ASSOCIATE();
 
         when(associateRepository.saveAndFlush(any(Associate.class))).thenReturn(testingAssociate);
@@ -59,7 +59,7 @@ public class AssociateServiceTest {
     }
 
     @Test
-    public void shouldFailToCreateAssociate_WhenPassAssociateWithCpfThatAlreadyExists() throws Exception {
+    public void shouldThrowBadRequestException_WhenCreateAssociateWithExistingCPF() throws Exception {
         AssociateDTO testingAssociateDto = AssociateDTO.fromModel(AssociateMocks.DEFAULT_ASSOCIATE());
 
         when(associateService.isValidAssociate(testingAssociateDto)).thenThrow(new AlreadyExistsException(testingAssociateDto.getCpf()));
@@ -68,7 +68,7 @@ public class AssociateServiceTest {
     }
 
     @Test
-    public void shouldFailToCreateAssociate_WhenPassAssociateWithEmailThatAlreadyExists() throws Exception {
+    public void shouldThrowBadRequestException_WhenCreateAssociateWithExistingEmail() throws Exception {
         AssociateDTO testingAssociateDto = AssociateDTO.fromModel(AssociateMocks.DEFAULT_ASSOCIATE());
 
         when(associateService.isValidAssociate(testingAssociateDto)).thenThrow(new AlreadyExistsException(testingAssociateDto.getEmail()));
