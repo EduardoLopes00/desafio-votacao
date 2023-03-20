@@ -1,5 +1,6 @@
 package com.testdbserver.desafiovotacao.web.controllers;
 
+import com.testdbserver.desafiovotacao.data.models.Associate;
 import com.testdbserver.desafiovotacao.data.models.Pauta;
 import com.testdbserver.desafiovotacao.services.PautaService;
 import com.testdbserver.desafiovotacao.web.DTO.PautaDTO;
@@ -25,6 +26,13 @@ public class PautaController implements PautaControllerInterface {
         return ResponseEntity.ok(pauta);
     }
 
+    @Override
+    @PostMapping(value = "")
+    public ResponseEntity<Pauta> createPauta(@RequestBody PautaDTO pautaDTO) {
+        Pauta newPauta = pautaService.createPauta(pautaDTO);
+
+        return ResponseEntity.status(201).body(newPauta);
+    }
 
 
 }

@@ -8,4 +8,6 @@ import java.util.UUID;
 
 public interface PautaControllerInterface {
     public ResponseEntity<Pauta> getById(UUID id);
+
+    public ResponseEntity<Pauta> createPauta(PautaDTO pautaDTO);
 }
