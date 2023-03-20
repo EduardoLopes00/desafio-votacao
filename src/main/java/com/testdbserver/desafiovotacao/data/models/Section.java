@@ -3,6 +3,7 @@ package com.testdbserver.desafiovotacao.data.models;
 import com.testdbserver.desafiovotacao.infra.enums.AssociateStatusEnum;
 import com.testdbserver.desafiovotacao.infra.enums.SectionStatusEnum;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.FutureOrPresent;
 import lombok.*;
 
 import java.util.Date;
@@ -29,9 +30,13 @@ public class Section {
     @Enumerated(EnumType.STRING)
     private SectionStatusEnum status;
 
+
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name="created_at")
     private Date createdAt;
 
+    @FutureOrPresent
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name="dt_start")
     private Date dtStart;
 

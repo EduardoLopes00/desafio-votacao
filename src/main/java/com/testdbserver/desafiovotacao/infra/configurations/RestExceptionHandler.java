@@ -2,6 +2,7 @@ package com.testdbserver.desafiovotacao.infra.configurations;
 
 import com.testdbserver.desafiovotacao.infra.exceptions.AlreadyExistsException;
 import com.testdbserver.desafiovotacao.infra.exceptions.CannotDeleteException;
+import com.testdbserver.desafiovotacao.infra.exceptions.InvalidDataException;
 import com.testdbserver.desafiovotacao.infra.exceptions.NotFoundException;
 import com.testdbserver.desafiovotacao.web.DTO.ExceptionDTO;
 import org.springframework.http.HttpStatus;
@@ -18,6 +19,14 @@ public class RestExceptionHandler {
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
                 new ExceptionDTO(HttpStatus.NOT_FOUND, e.getMessage())
+        );
+    }
+
+    @ExceptionHandler(InvalidDataException.class)
+    public ResponseEntity<ExceptionDTO> InvalidDataException(InvalidDataException e){
+
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
+                new ExceptionDTO(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage())
         );
     }
 
