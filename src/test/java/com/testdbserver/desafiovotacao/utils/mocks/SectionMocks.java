@@ -4,7 +4,7 @@ import com.testdbserver.desafiovotacao.data.models.Pauta;
 import com.testdbserver.desafiovotacao.data.models.Section;
 import com.testdbserver.desafiovotacao.infra.enums.SectionStatusEnum;
 import com.testdbserver.desafiovotacao.utils.DateUtils;
-import com.testdbserver.desafiovotacao.utils.UtilsFunctions;
+import com.testdbserver.desafiovotacao.web.DTO.SectionListDTO;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -74,6 +74,17 @@ public class SectionMocks {
         sectionList.add(SECTION_4());
 
         return sectionList;
+    }
+
+    public static List<SectionListDTO> SECTION_LIST_DTO() {
+        List<SectionListDTO> sectionListDto = new ArrayList<SectionListDTO>();
+
+        sectionListDto.add(SectionListDTO.fromModel(SECTION_1()));
+        sectionListDto.add(SectionListDTO.fromModel(SECTION_2()));
+        sectionListDto.add(SectionListDTO.fromModel(SECTION_3()));
+        sectionListDto.add(SectionListDTO.fromModel(SECTION_4()));
+
+        return sectionListDto;
     }
 
 }
