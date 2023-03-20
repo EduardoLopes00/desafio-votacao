@@ -6,6 +6,8 @@ import com.testdbserver.desafiovotacao.data.repositories.PautaRepository;
 import com.testdbserver.desafiovotacao.infra.exceptions.NotFoundException;
 import com.testdbserver.desafiovotacao.utils.mocks.AssociateMocks;
 import com.testdbserver.desafiovotacao.utils.mocks.PautaMocks;
+import com.testdbserver.desafiovotacao.web.DTO.AssociateDTO;
+import com.testdbserver.desafiovotacao.web.DTO.PautaDTO;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -15,8 +17,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -44,6 +46,18 @@ public class PautaServiceTest {
         when(pautaRepository.findById(nonexistentPautaId)).thenThrow(new NotFoundException(nonexistentPautaId.toString()));
 
         assertThrows(NotFoundException.class, () -> pautaService.getPautaById(nonexistentPautaId));
+    }
+
+    @Test
+    public void shouldCreatePauta_WhenCreatePautaWithValidData() throws Exception {
+        Pauta testingPauta = PautaMocks.DEFAULT_PAUTA();
+
+        when(pautaRepository.saveAndFlush(any(Pauta.class))).thenReturn(testingPauta);
+
+        Pauta pautaUT = pautaService.createPauta(PautaDTO.fromModel(testingPauta));
+
+        assertNotNull(pautaUT);
+        assertEquals(testingPauta.getDescription(), pautaUT.getDescription());
     }
 }
 
