@@ -1,5 +1,6 @@
 package com.testdbserver.desafiovotacao.data.models;
 
+import com.testdbserver.desafiovotacao.infra.enums.AssociateStatusEnum;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -22,4 +23,8 @@ public class Associate {
 
     @Column(name="email", nullable = false)
     private String email;
+
+    @Column(name="status", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private AssociateStatusEnum status;
 }

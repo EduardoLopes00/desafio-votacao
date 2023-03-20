@@ -23,7 +23,7 @@ public class SectionMocks {
         return Section.builder()
                 .id(SECTION_ID_1)
                 .pauta(PautaMocks.DEFAULT_PAUTA())
-                .status(SectionStatusEnum.WAITING_TO_START.ordinal())
+                .status(SectionStatusEnum.WAITING_TO_START)
                 .createdAt(now)
                 .dtStart(DateUtils.addTime(DateUtils.week, now))
                 .duration(DateUtils.hour).build();
@@ -35,7 +35,7 @@ public class SectionMocks {
         return Section.builder()
                 .id(SECTION_ID_2)
                 .pauta(PautaMocks.DEFAULT_PAUTA())
-                .status(SectionStatusEnum.WAITING_TO_START.ordinal())
+                .status(SectionStatusEnum.WAITING_TO_START)
                 .createdAt(now)
                 .dtStart(DateUtils.addTime(2 * DateUtils.week, now))
                 .duration(DateUtils.hour).build();
@@ -47,7 +47,7 @@ public class SectionMocks {
         return Section.builder()
                 .id(SECTION_ID_3)
                 .pauta(PautaMocks.DEFAULT_PAUTA())
-                .status(SectionStatusEnum.WAITING_TO_START.ordinal())
+                .status(SectionStatusEnum.WAITING_TO_START)
                 .createdAt(now)
                 .dtStart(DateUtils.addTime(3 * DateUtils.week, now))
                 .duration(DateUtils.hour).build();
@@ -59,7 +59,7 @@ public class SectionMocks {
         return Section.builder()
                 .id(SECTION_ID_4)
                 .pauta(PautaMocks.DEFAULT_PAUTA())
-                .status(SectionStatusEnum.WAITING_TO_START.ordinal())
+                .status(SectionStatusEnum.WAITING_TO_START)
                 .createdAt(now)
                 .dtStart(DateUtils.addTime(4 * DateUtils.week, now))
                 .duration(DateUtils.hour).build();

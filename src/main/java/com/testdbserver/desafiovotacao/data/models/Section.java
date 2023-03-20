@@ -1,5 +1,7 @@
 package com.testdbserver.desafiovotacao.data.models;
 
+import com.testdbserver.desafiovotacao.infra.enums.AssociateStatusEnum;
+import com.testdbserver.desafiovotacao.infra.enums.SectionStatusEnum;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -24,7 +26,8 @@ public class Section {
     private Pauta pauta;
 
     @Column(name="status")
-    private int status;
+    @Enumerated(EnumType.STRING)
+    private SectionStatusEnum status;
 
     @Column(name="created_at")
     private Date createdAt;
