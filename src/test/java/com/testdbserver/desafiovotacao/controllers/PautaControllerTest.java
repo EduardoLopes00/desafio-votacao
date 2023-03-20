@@ -18,7 +18,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
-import javax.print.attribute.standard.Media;
 import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -29,7 +28,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(PautaController.class)
-
 public class PautaControllerTest {
     private final String basePath = "/pauta";
 
@@ -47,7 +45,7 @@ public class PautaControllerTest {
     }
 
     @Test
-    public void shouldReturn404_WhenRequestGetAssociateByIdIsCalledWithNonexistentId() throws Exception {
+    public void shouldReturn404_WhenRequestGetPautaByIdIsCalledWithNonexistentId() throws Exception {
         UUID nonexistentPautaId = UUID.fromString("e12c91e6-c617-464b-9cd1-9c8fbd76a6b6");
 
         when(pautaService.getPautaById(nonexistentPautaId)).thenThrow(new NotFoundException(nonexistentPautaId.toString()));
