@@ -1,5 +1,6 @@
 package com.testdbserver.desafiovotacao.data.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -26,4 +27,9 @@ public class Pauta {
 
     @OneToMany(mappedBy = "pauta")
     private List<Section> sections;
+
+    @JsonManagedReference
+    public List<Section> getSections() {
+        return sections;
+    }
 }

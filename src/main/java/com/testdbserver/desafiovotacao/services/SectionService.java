@@ -4,6 +4,7 @@ import com.testdbserver.desafiovotacao.data.models.Pauta;
 import com.testdbserver.desafiovotacao.data.models.Section;
 import com.testdbserver.desafiovotacao.data.repositories.PautaRepository;
 import com.testdbserver.desafiovotacao.data.repositories.SectionRepository;
+import com.testdbserver.desafiovotacao.infra.enums.SectionStatusEnum;
 import com.testdbserver.desafiovotacao.infra.exceptions.InvalidDataException;
 import com.testdbserver.desafiovotacao.infra.exceptions.NotFoundException;
 import com.testdbserver.desafiovotacao.services.interfaces.SectionServiceInterface;
