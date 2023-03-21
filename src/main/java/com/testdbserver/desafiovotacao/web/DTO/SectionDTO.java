@@ -6,10 +6,11 @@ import com.testdbserver.desafiovotacao.data.models.Pauta;
 import com.testdbserver.desafiovotacao.data.models.Section;
 import com.testdbserver.desafiovotacao.infra.enums.SectionStatusEnum;
 import jakarta.annotation.Nonnull;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.*;
 
 import java.util.Date;
-import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -23,6 +24,7 @@ public class SectionDTO {
     private UUID id;
 
     @JsonProperty
+    @Nonnull
     private UUID pautaId;
 
     @JsonProperty
