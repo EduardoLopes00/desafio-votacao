@@ -5,10 +5,12 @@ import com.testdbserver.desafiovotacao.data.repositories.PautaRepository;
 import com.testdbserver.desafiovotacao.data.repositories.SectionRepository;
 import com.testdbserver.desafiovotacao.infra.exceptions.InvalidDataException;
 import com.testdbserver.desafiovotacao.infra.exceptions.NotFoundException;
+import com.testdbserver.desafiovotacao.utils.DateUtils;
 import com.testdbserver.desafiovotacao.utils.mocks.PautaMocks;
 import com.testdbserver.desafiovotacao.utils.mocks.SectionMocks;
+import com.testdbserver.desafiovotacao.web.DTO.SearchSectionsFiltersDTO;
 import com.testdbserver.desafiovotacao.web.DTO.SectionDTO;
-import org.apache.commons.lang3.time.DateUtils;
+import com.testdbserver.desafiovotacao.web.DTO.SectionListDTO;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -16,6 +18,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -45,6 +48,20 @@ public class SectionServiceTest {
     }
 
     @Test
+    public void shouldReturnSectionList_WhenGetAllSectionsIsCalledWithFilters() {
+        SearchSectionsFiltersDTO searchSectionsFiltersDTO = new SearchSectionsFiltersDTO(DateUtils.addTime(DateUtils.day * 3), false);
+
+        Date maxDate = DateUtils.addTime(DateUtils.day * 3, new Date());
+
+        when(sectionRepository.getAllSections(false, maxDate)).thenReturn(SectionMocks.SECTION_LIST());
+
+        List<SectionListDTO> testingSectionList = sectionService.searchSections(searchSectionsFiltersDTO);
+
+        assertNotNull(testingSectionList);
+        assertEquals(testingSectionList.get(0).getPautaSubject(), "New spot in the city center");
+    }
+
+    @Test
     public void shouldReturnNotFoundException_WhenGetSectionByIdIsCalledWithExistingId() {
         UUID nonExistentSectionId = UUID.fromString("e12c92e6-c617-464b-9cd1-9c8fbd76a6b6");
 
@@ -58,6 +75,7 @@ public class SectionServiceTest {
         Section testingSection = SectionMocks.SECTION_1();
 
         when(sectionRepository.saveAndFlush(any(Section.class))).thenReturn(testingSection);
+        when(pautaRepository.findById(any(UUID.class))).thenReturn(Optional.of(PautaMocks.DEFAULT_PAUTA()));
 
         Section sectionUT = sectionService.createSection(SectionDTO.fromModel(testingSection));
 
@@ -68,7 +86,7 @@ public class SectionServiceTest {
     @Test
     public void shouldThrowInternalServerError_WhenCreateSectionWithInvalidDtStart() throws Exception {
         Section testingSection = SectionMocks.SECTION_1();
-        testingSection.setDtStart(DateUtils.addHours(new Date(), -3));
+        testingSection.setDtStart(DateUtils.addTime(DateUtils.day * 3));
 
         when(pautaRepository.findById(any(UUID.class))).thenReturn(Optional.of(PautaMocks.DEFAULT_PAUTA()));
         when(sectionRepository.saveAndFlush(any(Section.class))).thenThrow(new InvalidDataException(testingSection.getDtStart().toString(), "dtStart", "It must be a future date"));

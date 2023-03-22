@@ -1,9 +1,9 @@
 package com.testdbserver.desafiovotacao.utils.mocks;
 
-import com.testdbserver.desafiovotacao.data.models.Pauta;
 import com.testdbserver.desafiovotacao.data.models.Section;
 import com.testdbserver.desafiovotacao.infra.enums.SectionStatusEnum;
 import com.testdbserver.desafiovotacao.utils.DateUtils;
+import com.testdbserver.desafiovotacao.web.DTO.SearchSectionsFiltersDTO;
 import com.testdbserver.desafiovotacao.web.DTO.SectionListDTO;
 
 import java.util.ArrayList;
@@ -85,6 +85,12 @@ public class SectionMocks {
         sectionListDto.add(SectionListDTO.fromModel(SECTION_4()));
 
         return sectionListDto;
+    }
+
+    public static SearchSectionsFiltersDTO DEFAULT_SECTION_FILTERS() {
+        SearchSectionsFiltersDTO searchSectionsFiltersDTO = new SearchSectionsFiltersDTO(DateUtils.addTime(DateUtils.day * 3, new Date()), true);
+
+        return searchSectionsFiltersDTO;
     }
 
 }
