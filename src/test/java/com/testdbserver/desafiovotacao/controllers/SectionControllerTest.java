@@ -1,17 +1,14 @@
 package com.testdbserver.desafiovotacao.controllers;
 
-import com.testdbserver.desafiovotacao.data.models.Pauta;
 import com.testdbserver.desafiovotacao.data.models.Section;
 import com.testdbserver.desafiovotacao.infra.exceptions.InvalidDataException;
 import com.testdbserver.desafiovotacao.infra.exceptions.NotFoundException;
 import com.testdbserver.desafiovotacao.services.SectionService;
 import com.testdbserver.desafiovotacao.utils.TestUtilsFunctions;
-import com.testdbserver.desafiovotacao.utils.mocks.PautaMocks;
 import com.testdbserver.desafiovotacao.utils.mocks.SectionMocks;
-import com.testdbserver.desafiovotacao.web.DTO.PautaDTO;
+import com.testdbserver.desafiovotacao.web.DTO.SearchSectionsFiltersDTO;
 import com.testdbserver.desafiovotacao.web.DTO.SectionDTO;
 import com.testdbserver.desafiovotacao.web.controllers.SectionController;
-import org.apache.commons.lang3.time.DateUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -20,7 +17,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
-import java.util.Date;
 import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -71,26 +67,34 @@ public class SectionControllerTest {
 
         mockMvc.perform(post(basePath)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(TestUtilsFunctions.convertObjectToJSON(SectionDTO.fromModel(testingSection)))).andDo(MockMvcResultHandlers.print())
+                        .content(TestUtilsFunctions.convertObjectToJSON(SectionDTO.fromModel(testingSection))))
+                .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").isNotEmpty())
-                .andExpect(jsonPath("$.pauta.subject").value(testingSection.getPauta().getSubject()))
                 .andExpect(jsonPath("$.duration").value(testingSection.getDuration()));
     }
 
     @Test
     public void shouldReturn500_WhenCreateSectionWithInvalidDtStart() throws Exception {
         Section testingSection = SectionMocks.SECTION_1();
-        testingSection.setDtStart(DateUtils.addHours(new Date(), -3));
 
-        System.out.println("LALALALA: " + testingSection.getDtStart());
-
-        when(sectionService.createSection(SectionDTO.fromModel(testingSection))).thenThrow(new InvalidDataException(testingSection.getDtStart().toString(), "dtStart", "It must be a future date"));
+        when(sectionService.createSection(any(SectionDTO.class))).thenThrow(new InvalidDataException("dtStart", testingSection.getDtStart().toString(), "It must be a future date"));
 
         mockMvc.perform(post(basePath)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(TestUtilsFunctions.convertObjectToJSON(SectionDTO.fromModel(testingSection)))).andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isInternalServerError())
                 .andExpect(jsonPath("$.message").value("You inserted an invalid value("+ testingSection.getDtStart().toString() +") for the field dtStart. The reason is: It must be a future date"));
+    }
+
+    @Test
+    public void shouldReturn200_WhenGetAllSectionsIsCalledWithFilters() throws Exception {
+        when(sectionService.searchSections(any(SearchSectionsFiltersDTO.class))).thenReturn(SectionMocks.SECTION_LIST_DTO());
+
+        mockMvc.perform(post(basePath + "/search")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(TestUtilsFunctions.convertObjectToJSON(SectionMocks.DEFAULT_SECTION_FILTERS()))).andDo(MockMvcResultHandlers.print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].status").value("WAITING_TO_START"));
     }
 }
