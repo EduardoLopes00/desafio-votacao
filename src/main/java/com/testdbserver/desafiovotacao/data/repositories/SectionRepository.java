@@ -10,8 +10,8 @@ import java.util.UUID;
 
 public interface SectionRepository extends JpaRepository<Section, UUID> {
     @Query(value = " SELECT s FROM Section s " +
-            "      WHERE (?1=false and s.status <> 'FINISHED') " +
-            "        AND s.dt_start < ?2 " +
-            "      ORDER BY s.dt_start asc", nativeQuery = true)
+            "         WHERE (:allowFinishedSections=false and s.status <> 'FINISHED') " +
+            "           AND s.dt_start < :maxDate " +
+            "         ORDER BY s.dt_start asc", nativeQuery = true)
     public List<Section> getAllSections(boolean allowFinishedSections, Date maxDate);
 }

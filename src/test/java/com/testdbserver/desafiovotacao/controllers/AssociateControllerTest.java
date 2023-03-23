@@ -72,7 +72,7 @@ public class AssociateControllerTest {
     public void shouldReturn500_WhenRequestCreateAssociateIsCalledWithExistingCPF() throws Exception {
         Associate testingAssociate = AssociateMocks.DEFAULT_ASSOCIATE();
 
-        when(associateService.createAssociate(any (AssociateDTO.class))).thenThrow(new AlreadyExistsException(testingAssociate.getCpf()));
+        when(associateService.createAssociate(any (AssociateDTO.class))).thenThrow(new AlreadyExistsException(testingAssociate.getCpf(), ""));
 
         mockMvc.perform(post(basePath)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -86,7 +86,7 @@ public class AssociateControllerTest {
     public void shouldReturn500_WhenRequestCreateAssociateIsCalledWithExistingEmail() throws Exception {
         Associate testingAssociate = AssociateMocks.DEFAULT_ASSOCIATE();
 
-        when(associateService.createAssociate(any (AssociateDTO.class))).thenThrow(new AlreadyExistsException(testingAssociate.getEmail()));
+        when(associateService.createAssociate(any (AssociateDTO.class))).thenThrow(new AlreadyExistsException(testingAssociate.getEmail(), ""));
 
         mockMvc.perform(post(basePath)
                         .contentType(MediaType.APPLICATION_JSON)

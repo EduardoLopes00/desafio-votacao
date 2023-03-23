@@ -62,7 +62,7 @@ public class AssociateServiceTest {
     public void shouldThrowInternalServerErrorException_WhenCreateAssociateWithExistingCPF() throws Exception {
         AssociateDTO testingAssociateDto = AssociateDTO.fromModel(AssociateMocks.DEFAULT_ASSOCIATE());
 
-        when(associateService.isValidAssociate(testingAssociateDto)).thenThrow(new AlreadyExistsException(testingAssociateDto.getCpf()));
+        when(associateService.isValidAssociate(testingAssociateDto)).thenThrow(new AlreadyExistsException(testingAssociateDto.getCpf(), ""));
 
         assertThrows(AlreadyExistsException.class, () -> associateService.createAssociate(testingAssociateDto), "The system couldn't complete the action because the item already exists for data " + testingAssociateDto.getCpf());
     }
@@ -71,7 +71,7 @@ public class AssociateServiceTest {
     public void shouldThrowInternalServerErrorException_WhenCreateAssociateWithExistingEmail() throws Exception {
         AssociateDTO testingAssociateDto = AssociateDTO.fromModel(AssociateMocks.DEFAULT_ASSOCIATE());
 
-        when(associateService.isValidAssociate(testingAssociateDto)).thenThrow(new AlreadyExistsException(testingAssociateDto.getEmail()));
+        when(associateService.isValidAssociate(testingAssociateDto)).thenThrow(new AlreadyExistsException(testingAssociateDto.getEmail(), ""));
 
         assertThrows(AlreadyExistsException.class, () -> associateService.createAssociate(testingAssociateDto), "The system couldn't complete the action because the item already exists for data " + testingAssociateDto.getEmail());
     }

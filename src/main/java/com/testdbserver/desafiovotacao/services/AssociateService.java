@@ -36,13 +36,13 @@ public class AssociateService implements AssociateServiceInterface {
     protected boolean isValidAssociate(AssociateDTO associateDTO) {
         Associate existsAssociateCpf = associateRepository.findFirstByCpf(associateDTO.getCpf());
 
-        if (existsAssociateCpf != null) throw new AlreadyExistsException(existsAssociateCpf.getCpf());
+        if (existsAssociateCpf != null) throw new AlreadyExistsException(existsAssociateCpf.getCpf(), "");
 
 
         if (!associateDTO.getEmail().isEmpty()){
             Associate existsAssociateEmail = associateRepository.findFirstByCpf(associateDTO.getEmail());
 
-            if (existsAssociateEmail != null) throw new AlreadyExistsException(existsAssociateEmail.getEmail());
+            if (existsAssociateEmail != null) throw new AlreadyExistsException(existsAssociateEmail.getEmail(), "");
         }
 
         return true;

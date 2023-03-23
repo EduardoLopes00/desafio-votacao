@@ -4,6 +4,7 @@ import com.testdbserver.desafiovotacao.data.models.Section;
 import com.testdbserver.desafiovotacao.web.DTO.SearchSectionsFiltersDTO;
 import com.testdbserver.desafiovotacao.web.DTO.SectionDTO;
 import com.testdbserver.desafiovotacao.web.DTO.SectionListDTO;
+import com.testdbserver.desafiovotacao.web.DTO.VoteBySectionDTO;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
@@ -16,5 +17,5 @@ public interface SectionControllerInterface {
 
     public ResponseEntity<List<SectionListDTO>> searchSections(SearchSectionsFiltersDTO searchSectionsFiltersDTO);
 
-
+    public ResponseEntity<List<VoteBySectionDTO>> getVotesBySection(UUID sectionId);
 }
