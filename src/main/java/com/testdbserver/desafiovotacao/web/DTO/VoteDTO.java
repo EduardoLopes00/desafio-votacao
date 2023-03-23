@@ -1,10 +1,12 @@
 package com.testdbserver.desafiovotacao.web.DTO;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.testdbserver.desafiovotacao.data.models.Associate;
 import com.testdbserver.desafiovotacao.data.models.Pauta;
 import com.testdbserver.desafiovotacao.data.models.Section;
 import com.testdbserver.desafiovotacao.data.models.Vote;
+import com.testdbserver.desafiovotacao.infra.enums.VoteOptionEnum;
 import jakarta.annotation.Nonnull;
 import jakarta.persistence.*;
 import lombok.*;
@@ -20,26 +22,25 @@ import java.util.UUID;
 public class VoteDTO {
     @Nonnull
     @JsonProperty
-    private UUID id;
+    private UUID associateId;
 
     @Nonnull
     @JsonProperty
-    private UUID associate_id;
+    private UUID sectionId;
 
-    @Nonnull
     @JsonProperty
-    private UUID section_id;
-
-    @Nonnull
-    @JsonProperty
+    @JsonIgnore
     private Date votedAt;
 
-    public Vote toModel(Section section, Associate associate) {
-        return Vote.builder().id(this.id).votedAt(this.votedAt).section(section).associate(associate).build();
+    @JsonProperty
+    private VoteOptionEnum voteOption;
+
+    public Vote toModel() {
+        return Vote.builder().votedAt(new Date()).sectionId(sectionId).associateId(associateId).voteOption(voteOption).build();
     }
 
     public static VoteDTO fromModel(Vote vote) {
-        return VoteDTO.builder().id(vote.getId()).votedAt(vote.getVotedAt()).section_id(vote.getSection().getId()).associate_id(vote.getAssociate().getId()).build();
+        return VoteDTO.builder().votedAt(vote.getVotedAt()).sectionId(vote.getSection().getId()).associateId(vote.getAssociate().getId()).voteOption(vote.getVoteOption()).build();
     }
 
 }
