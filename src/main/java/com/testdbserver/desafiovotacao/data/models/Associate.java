@@ -3,7 +3,10 @@ package com.testdbserver.desafiovotacao.data.models;
 import com.testdbserver.desafiovotacao.infra.enums.AssociateStatusEnum;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Collection;
 import java.util.UUID;
 
 @NoArgsConstructor
@@ -27,4 +30,12 @@ public class Associate {
     @Column(name="status", nullable = false)
     @Enumerated(EnumType.STRING)
     private AssociateStatusEnum status;
+
+    @Column(name="password", nullable = false)
+    private String password;
+
+    public String getUsername() {
+        return email;
+
+    }
 }
