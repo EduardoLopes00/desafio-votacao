@@ -1,9 +1,8 @@
 package com.testdbserver.desafiovotacao.web.DTO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.testdbserver.desafiovotacao.data.models.Pauta;
 import com.testdbserver.desafiovotacao.data.models.Section;
-import com.testdbserver.desafiovotacao.infra.enums.SectionStatusEnum;
+import com.testdbserver.desafiovotacao.data.enums.SectionStatusEnum;
 import jakarta.annotation.Nonnull;
 import lombok.*;
 

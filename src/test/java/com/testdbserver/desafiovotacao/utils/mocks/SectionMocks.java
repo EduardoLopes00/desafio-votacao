@@ -1,7 +1,7 @@
 package com.testdbserver.desafiovotacao.utils.mocks;
 
 import com.testdbserver.desafiovotacao.data.models.Section;
-import com.testdbserver.desafiovotacao.infra.enums.SectionStatusEnum;
+import com.testdbserver.desafiovotacao.data.enums.SectionStatusEnum;
 import com.testdbserver.desafiovotacao.utils.DateUtils;
 import com.testdbserver.desafiovotacao.web.DTO.SearchSectionsFiltersDTO;
 import com.testdbserver.desafiovotacao.web.DTO.SectionListDTO;

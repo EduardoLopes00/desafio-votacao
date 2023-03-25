@@ -1,4 +1,4 @@
-package com.testdbserver.desafiovotacao.infra.enums;
+package com.testdbserver.desafiovotacao.data.enums;
 
 public enum VoteOptionEnum {
     YES,

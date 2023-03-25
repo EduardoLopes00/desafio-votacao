@@ -1,7 +1,7 @@
 package com.testdbserver.desafiovotacao.data.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.testdbserver.desafiovotacao.infra.enums.SectionStatusEnum;
+import com.testdbserver.desafiovotacao.data.enums.SectionStatusEnum;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.FutureOrPresent;
 import lombok.*;

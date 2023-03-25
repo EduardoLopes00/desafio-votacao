@@ -2,13 +2,9 @@ package com.testdbserver.desafiovotacao.web.DTO;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.testdbserver.desafiovotacao.data.models.Associate;
-import com.testdbserver.desafiovotacao.data.models.Pauta;
-import com.testdbserver.desafiovotacao.data.models.Section;
 import com.testdbserver.desafiovotacao.data.models.Vote;
-import com.testdbserver.desafiovotacao.infra.enums.VoteOptionEnum;
+import com.testdbserver.desafiovotacao.data.enums.VoteOptionEnum;
 import jakarta.annotation.Nonnull;
-import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.Date;

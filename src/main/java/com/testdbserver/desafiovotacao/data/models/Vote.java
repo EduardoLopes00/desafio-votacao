@@ -1,6 +1,6 @@
 package com.testdbserver.desafiovotacao.data.models;
 
-import com.testdbserver.desafiovotacao.infra.enums.VoteOptionEnum;
+import com.testdbserver.desafiovotacao.data.enums.VoteOptionEnum;
 import jakarta.persistence.*;
 import lombok.*;
 

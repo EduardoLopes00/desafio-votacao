@@ -1,7 +1,7 @@
 package com.testdbserver.desafiovotacao.web.DTO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.testdbserver.desafiovotacao.infra.enums.VoteOptionEnum;
+import com.testdbserver.desafiovotacao.data.enums.VoteOptionEnum;
 
 import java.util.UUID;
 
