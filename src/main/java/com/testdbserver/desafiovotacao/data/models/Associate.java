@@ -1,6 +1,6 @@
 package com.testdbserver.desafiovotacao.data.models;
 
-import com.testdbserver.desafiovotacao.infra.enums.AssociateStatusEnum;
+import com.testdbserver.desafiovotacao.data.enums.AssociateStatusEnum;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -16,7 +16,7 @@ import java.util.UUID;
 @Builder
 @Entity
 @Table(name="associate")
-public class Associate {
+public class Associate implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
@@ -34,8 +34,33 @@ public class Associate {
     @Column(name="password", nullable = false)
     private String password;
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
+    }
+
     public String getUsername() {
         return email;
 
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return false;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return false;
     }
 }

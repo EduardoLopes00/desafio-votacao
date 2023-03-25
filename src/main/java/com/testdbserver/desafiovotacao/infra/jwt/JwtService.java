@@ -1,4 +1,4 @@
-package com.testdbserver.desafiovotacao.infra.security;
+package com.testdbserver.desafiovotacao.infra.jwt;
 
 import com.testdbserver.desafiovotacao.data.models.Associate;
 import com.testdbserver.desafiovotacao.utils.DateUtils;
@@ -6,6 +6,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
@@ -35,26 +36,26 @@ public class JwtService {
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
     }
-    public String generateToken(Associate associate) {
-        return generateToken(new HashMap<>(), associate);
+    public String generateToken(Associate user) {
+        return generateToken(new HashMap<>(), user);
     }
 
     public String generateToken(
             Map<String, Object> extraClaims,
-            Associate associate
+            Associate user
     ) {
         return Jwts
                 .builder()
                 .setClaims(extraClaims)
-                .setSubject(associate.getUsername())
+                .setSubject(user.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + DateUtils.hour * 24))
                 .compact();
     }
 
-    public boolean isTokenValid(String token, Associate associate) {
+    public boolean isTokenValid(String token, UserDetails user) {
         final String username = extractUsername(token);
-        return (username.equals(associate.getUsername())) && !isTokenExpired(token);
+        return (username.equals(user.getUsername())) && !isTokenExpired(token);
     }
 
     public boolean isTokenExpired(String token) {
