@@ -8,5 +8,7 @@ import java.util.UUID;
 public interface AssociateServiceInterface {
     public Associate getAssociateById(UUID id);
 
+    public Associate createAssociate(AssociateDTO associateDTO, String encodedPassword);
+
     public Associate createAssociate(AssociateDTO associateDTO);
 }
