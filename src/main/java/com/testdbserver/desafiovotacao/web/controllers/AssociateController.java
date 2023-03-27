@@ -24,14 +24,4 @@ public class AssociateController implements AssociateControllerInterface {
 
         return ResponseEntity.ok(associate);
     }
-
-    @Override
-    @PostMapping()
-    public ResponseEntity<Associate> createAssociate(@RequestBody  AssociateDTO associateDTO) {
-        Associate newAssociate = associateService.createAssociate(associateDTO);
-
-        return ResponseEntity.status(201).body(newAssociate);
-    }
-
-
 }

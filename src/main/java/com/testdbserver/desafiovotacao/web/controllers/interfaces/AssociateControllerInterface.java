@@ -8,6 +8,4 @@ import java.util.UUID;
 
 public interface AssociateControllerInterface {
     public ResponseEntity<Associate> getById(UUID id);
-
-    public ResponseEntity<Associate> createAssociate(AssociateDTO associateDTO);
 }
