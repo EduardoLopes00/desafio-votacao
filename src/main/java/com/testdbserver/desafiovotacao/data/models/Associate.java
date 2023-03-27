@@ -1,6 +1,7 @@
 package com.testdbserver.desafiovotacao.data.models;
 
 import com.testdbserver.desafiovotacao.data.enums.AssociateStatusEnum;
+import com.testdbserver.desafiovotacao.data.enums.UserRolesEnum;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -21,6 +22,9 @@ public class Associate implements UserDetails {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    @Column(name="fullname")
+    private String fullname;
+
     @Column(name="cpf", nullable = false)
     private String cpf;
 
@@ -34,6 +38,10 @@ public class Associate implements UserDetails {
     @Column(name="password", nullable = false)
     private String password;
 
+    @Column(name="role")
+    @Enumerated(EnumType.STRING)
+    private UserRolesEnum role;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;
@@ -41,7 +49,6 @@ public class Associate implements UserDetails {
 
     public String getUsername() {
         return email;
-
     }
 
     @Override
