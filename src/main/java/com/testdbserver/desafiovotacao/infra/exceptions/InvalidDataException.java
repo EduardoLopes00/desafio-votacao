@@ -9,4 +9,8 @@ public class InvalidDataException extends RuntimeException {
     public InvalidDataException(String dataTitle, String dataValue, String reason) {
         super("You inserted an invalid value(" + dataValue + ") for the field " + dataTitle +". The reason is: " + reason);
     }
+
+    public InvalidDataException(String message) {
+        super(message);
+    }
 }
