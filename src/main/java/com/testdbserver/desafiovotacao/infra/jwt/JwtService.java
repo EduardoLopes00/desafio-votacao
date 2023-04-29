@@ -1,11 +1,14 @@
 package com.testdbserver.desafiovotacao.infra.jwt;
 
 import com.testdbserver.desafiovotacao.data.models.Associate;
+import com.testdbserver.desafiovotacao.infra.configurations.EnvironmentVariables;
 import com.testdbserver.desafiovotacao.utils.DateUtils;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +20,11 @@ import java.util.function.Function;
 
 @Service
 public class JwtService {
-    private static final String SECRET = "214125442A472D4B6150645367556B58703273357638792F423F4528482B4D62";
+    @Autowired
+    private EnvironmentVariables environmentVariables;
+
+    public static final int TOKEN_DURATION = DateUtils.hour * 10;
+
 
     private Claims extractAllClaims(String token) {
         return Jwts
@@ -49,7 +56,8 @@ public class JwtService {
                 .setClaims(extraClaims)
                 .setSubject(user.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + DateUtils.hour * 24))
+                .setExpiration(new Date(System.currentTimeMillis() + TOKEN_DURATION))
+                .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
 
@@ -68,7 +76,7 @@ public class JwtService {
 
 
     private Key getSignInKey() {
-         byte[] key = Decoders.BASE64.decode(SECRET);
+         byte[] key = Decoders.BASE64.decode(environmentVariables.getJWTSECRET());
          return Keys.hmacShaKeyFor(key);
     }
 }

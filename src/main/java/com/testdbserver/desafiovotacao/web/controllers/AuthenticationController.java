@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("auth")
+@RequestMapping("/auth")
 public class AuthenticationController implements AuthenticationControllerInterface {
     @Autowired
     AuthenticationService authenticationService;
@@ -24,7 +24,6 @@ public class AuthenticationController implements AuthenticationControllerInterfa
         AuthResponseDTO authResponse = authenticationService.login(loginData);
 
         return ResponseEntity.ok(authResponse);
-
     }
 
     @Override

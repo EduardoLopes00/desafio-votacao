@@ -1,13 +1,15 @@
 package com.testdbserver.desafiovotacao.data.models;
 
 import com.testdbserver.desafiovotacao.data.enums.AssociateStatusEnum;
-import com.testdbserver.desafiovotacao.data.enums.UserRolesEnum;
+import com.testdbserver.desafiovotacao.data.enums.AssociateRolesEnum;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 
 @NoArgsConstructor
@@ -40,11 +42,11 @@ public class Associate implements UserDetails {
 
     @Column(name="role")
     @Enumerated(EnumType.STRING)
-    private UserRolesEnum role;
+    private AssociateRolesEnum role;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return List.of(new SimpleGrantedAuthority(role.name()));
     }
 
     public String getUsername() {
@@ -53,21 +55,21 @@ public class Associate implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return this.status.equals(AssociateStatusEnum.ACTIVE);
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return this.status.equals(AssociateStatusEnum.ACTIVE) ;
     }
 }
