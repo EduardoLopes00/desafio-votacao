@@ -1,7 +1,7 @@
 package com.testdbserver.desafiovotacao.services;
 
 import com.testdbserver.desafiovotacao.data.enums.AssociateStatusEnum;
-import com.testdbserver.desafiovotacao.data.enums.UserRolesEnum;
+import com.testdbserver.desafiovotacao.data.enums.AssociateRolesEnum;
 import com.testdbserver.desafiovotacao.data.models.Associate;
 import com.testdbserver.desafiovotacao.data.repositories.AssociateRepository;
 import com.testdbserver.desafiovotacao.infra.exceptions.AlreadyExistsException;
@@ -29,7 +29,7 @@ public class AssociateService implements AssociateServiceInterface {
         if (isValidAssociate(associateDTO)) {
             Associate newAssociate = associateDTO.toModel();
             newAssociate.setStatus(AssociateStatusEnum.ACTIVE);
-            newAssociate.setRole(UserRolesEnum.USER);
+            newAssociate.setRole(AssociateRolesEnum.ROLE_USER);
             newAssociate.setPassword(encodedPassword);
 
             return associateRepository.saveAndFlush(newAssociate);
