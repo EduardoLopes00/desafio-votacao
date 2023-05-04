@@ -1,7 +1,7 @@
 package com.testdbserver.desafiovotacao.web.controllers;
 
 import com.testdbserver.desafiovotacao.services.AuthenticationService;
-import com.testdbserver.desafiovotacao.web.DTO.AuthResponseDTO;
+import com.testdbserver.desafiovotacao.web.DTO.LoginResponseDTO;
 import com.testdbserver.desafiovotacao.web.DTO.LoginRequestDTO;
 import com.testdbserver.desafiovotacao.web.DTO.RegisterRequestDTO;
 import com.testdbserver.desafiovotacao.web.controllers.interfaces.AuthenticationControllerInterface;
@@ -20,17 +20,17 @@ public class AuthenticationController implements AuthenticationControllerInterfa
 
     @Override
     @PostMapping("/login")
-    public ResponseEntity<AuthResponseDTO> login(@RequestBody LoginRequestDTO loginData) {
-        AuthResponseDTO authResponse = authenticationService.login(loginData);
+    public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginRequestDTO loginData) {
+        LoginResponseDTO authResponse = authenticationService.login(loginData);
 
         return ResponseEntity.ok(authResponse);
     }
 
     @Override
     @PostMapping("/register")
-    public ResponseEntity<AuthResponseDTO> register(@RequestBody RegisterRequestDTO registerData) {
-        AuthResponseDTO authResponse = authenticationService.register(registerData);
+    public ResponseEntity<LoginResponseDTO> register(@RequestBody RegisterRequestDTO registerData) {
+        LoginResponseDTO authResponse = authenticationService.register(registerData);
 
-        return ResponseEntity.ok(authResponse);
+        return ResponseEntity.status(201).body(authResponse);
     }
 }

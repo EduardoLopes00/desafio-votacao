@@ -30,7 +30,7 @@ public class AssociateServiceTest {
 
     @Test
     public void shouldReturnAssociate_WhenGetAssociateByIdIsCalledWithExistingId() throws Exception {
-        when(associateRepository.findById(AssociateMocks.DEFAULT_ASSOCIATE_ID)).thenReturn(Optional.of(AssociateMocks.DEFAULT_ASSOCIATE()));
+        when(associateRepository.findById(any(UUID.class))).thenReturn(Optional.ofNullable(AssociateMocks.DEFAULT_ASSOCIATE()));
 
         Associate associateUT = associateService.getAssociateById(AssociateMocks.DEFAULT_ASSOCIATE_ID);
 
@@ -44,18 +44,6 @@ public class AssociateServiceTest {
         when(associateRepository.findById(nonexistentAssociateId)).thenThrow(new NotFoundException(nonexistentAssociateId.toString()));
 
         assertThrows(NotFoundException.class, () -> associateService.getAssociateById(nonexistentAssociateId));
-    }
-
-    @Test
-    public void shouldCreateAssociate_WhenCreateAssociateWithValidData() throws Exception {
-        Associate testingAssociate = AssociateMocks.DEFAULT_ASSOCIATE();
-
-        when(associateRepository.saveAndFlush(any(Associate.class))).thenReturn(testingAssociate);
-
-        Associate associateUT = associateService.createAssociate(AssociateDTO.fromModel(testingAssociate));
-
-        assertNotNull(associateUT);
-        assertEquals(testingAssociate.getCpf(), associateUT.getCpf());
     }
 
     @Test

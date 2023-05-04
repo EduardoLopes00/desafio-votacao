@@ -9,11 +9,10 @@ import com.testdbserver.desafiovotacao.utils.mocks.AssociateMocks;
 import com.testdbserver.desafiovotacao.web.DTO.AssociateDTO;
 import com.testdbserver.desafiovotacao.web.controllers.AssociateController;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
 import static org.mockito.Mockito.*;
@@ -24,24 +23,25 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.UUID;
 
 @WebMvcTest(AssociateController.class)
-public class AssociateControllerTest {
-
-    private final String basePath = "/associate";
-
+public class AssociateControllerTest extends BasicControllerTest {
     @MockBean
     private AssociateService associateService;
-    @Autowired
-    private MockMvc mockMvc;
+
+    protected AssociateControllerTest() {
+        super("/associate");
+    }
 
     @Test
+    @WithMockUser
     public void shouldReturn200_WhenRequestGetAssociateByIdIsCalledWithExistingId() throws Exception {
         when(associateService.getAssociateById(AssociateMocks.DEFAULT_ASSOCIATE_ID)).thenReturn(AssociateMocks.DEFAULT_ASSOCIATE());
 
-        mockMvc.perform(get(basePath + "/{id}", AssociateMocks.DEFAULT_ASSOCIATE_ID))
+        mockMvc.perform(get(basePath + "/{id}", AssociateMocks.DEFAULT_ASSOCIATE_ID)).andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk());
     }
 
     @Test
+    @WithMockUser
     public void shouldReturn404_WhenRequestGetAssociateByIdIsCalledWithNonexistentId() throws Exception {
         UUID nonexistentAssociateId = UUID.fromString("e12c92e6-c617-464b-9cd1-9c8fbd76a6b6");
 
@@ -49,49 +49,6 @@ public class AssociateControllerTest {
 
         mockMvc.perform(get(basePath + "/{id}", nonexistentAssociateId))
                 .andExpect(status().isNotFound()).andExpect(jsonPath("$.message").value("Item not found for ID " + nonexistentAssociateId));
-    }
-
-    @Test
-    public void shouldReturn201_WhenRequestCreateAssociateWithValidData() throws Exception {
-        Associate testingAssociate = AssociateMocks.DEFAULT_ASSOCIATE();
-
-        when(associateService.createAssociate(any(AssociateDTO.class))).thenReturn(testingAssociate);
-
-        mockMvc.perform(post(basePath)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(TestUtilsFunctions.convertObjectToJSON(AssociateDTO.fromModel(testingAssociate)))).andDo(MockMvcResultHandlers.print())
-                .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.id").isNotEmpty())
-                .andExpect(jsonPath("$.cpf").value(testingAssociate.getCpf()))
-                .andExpect(jsonPath("$.email").value(testingAssociate.getEmail()));
-    }
-
-    @Test
-    public void shouldReturn500_WhenRequestCreateAssociateIsCalledWithExistingCPF() throws Exception {
-        Associate testingAssociate = AssociateMocks.DEFAULT_ASSOCIATE();
-
-        when(associateService.createAssociate(any (AssociateDTO.class))).thenThrow(new AlreadyExistsException(testingAssociate.getCpf(), ""));
-
-        mockMvc.perform(post(basePath)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(TestUtilsFunctions.convertObjectToJSON(AssociateDTO.fromModel(testingAssociate))))
-                .andDo(MockMvcResultHandlers.print())
-                .andExpect(status().isInternalServerError())
-                .andExpect(jsonPath("$.message").value("The system couldn't complete the action because the item already exists for data " + testingAssociate.getCpf()));
-    }
-
-    @Test
-    public void shouldReturn500_WhenRequestCreateAssociateIsCalledWithExistingEmail() throws Exception {
-        Associate testingAssociate = AssociateMocks.DEFAULT_ASSOCIATE();
-
-        when(associateService.createAssociate(any (AssociateDTO.class))).thenThrow(new AlreadyExistsException(testingAssociate.getEmail(), ""));
-
-        mockMvc.perform(post(basePath)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(TestUtilsFunctions.convertObjectToJSON(AssociateDTO.fromModel(testingAssociate))))
-                .andDo(MockMvcResultHandlers.print())
-                .andExpect(status().isInternalServerError())
-                .andExpect(jsonPath("$.message").value("The system couldn't complete the action because the item already exists for data " + testingAssociate.getEmail()));
     }
 }
 

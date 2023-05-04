@@ -7,7 +7,7 @@ import com.testdbserver.desafiovotacao.infra.exceptions.NotFoundException;
 import com.testdbserver.desafiovotacao.infra.jwt.JwtService;
 import com.testdbserver.desafiovotacao.services.interfaces.AuthenticationServiceInterface;
 import com.testdbserver.desafiovotacao.web.DTO.AssociateDTO;
-import com.testdbserver.desafiovotacao.web.DTO.AuthResponseDTO;
+import com.testdbserver.desafiovotacao.web.DTO.LoginResponseDTO;
 import com.testdbserver.desafiovotacao.web.DTO.LoginRequestDTO;
 import com.testdbserver.desafiovotacao.web.DTO.RegisterRequestDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +34,7 @@ public class AuthenticationService implements AuthenticationServiceInterface {
     PasswordEncoder passwordEncoder;
 
     @Override
-    public AuthResponseDTO login(LoginRequestDTO loginData) {
+    public LoginResponseDTO login(LoginRequestDTO loginData) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         loginData.getEmail(),
@@ -46,11 +46,11 @@ public class AuthenticationService implements AuthenticationServiceInterface {
                 .orElseThrow(() -> new NotFoundException(loginData.getEmail()));
 
         String jwtToken = jwtService.generateToken(associate);
-        return AuthResponseDTO.builder().associateDTO(AssociateDTO.fromModel(associate)).token(jwtToken).build();
+        return LoginResponseDTO.builder().associateDTO(AssociateDTO.fromModel(associate)).token(jwtToken).build();
     }
 
     @Override
-    public AuthResponseDTO register(RegisterRequestDTO registerData) {
+    public LoginResponseDTO register(RegisterRequestDTO registerData) {
         if (!registerData.getPassword().equals(registerData.getPasswordConfirm())){
             throw new InvalidDataException("Passwords doesn't match");
         }
@@ -58,7 +58,7 @@ public class AuthenticationService implements AuthenticationServiceInterface {
         Associate newAssociate = associateService.createAssociate(registerData.getAssociateDTO(), passwordEncoder.encode(registerData.getPassword()));
 
         String jwtToken = jwtService.generateToken(newAssociate);
-        return AuthResponseDTO
+        return LoginResponseDTO
                 .builder()
                 .associateDTO(AssociateDTO.fromModel(newAssociate))
                 .token(jwtToken)
