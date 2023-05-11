@@ -8,7 +8,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-public abstract class BasicControllerTest<T> {
+public abstract class BasicControllerTest {
     protected String basePath = "";
 
     protected BasicControllerTest(String basePath) {
