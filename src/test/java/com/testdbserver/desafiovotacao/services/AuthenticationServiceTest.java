@@ -4,7 +4,6 @@ import com.testdbserver.desafiovotacao.data.models.Associate;
 import com.testdbserver.desafiovotacao.data.repositories.AssociateRepository;
 import com.testdbserver.desafiovotacao.infra.exceptions.InvalidDataException;
 import com.testdbserver.desafiovotacao.infra.jwt.JwtService;
-import com.testdbserver.desafiovotacao.utils.TestConfig;
 import com.testdbserver.desafiovotacao.utils.mocks.AssociateMocks;
 import com.testdbserver.desafiovotacao.utils.mocks.AuthenticationMocks;
 import com.testdbserver.desafiovotacao.web.DTO.AssociateDTO;
@@ -28,7 +27,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-@Import({TestConfig.class})
 @ExtendWith(MockitoExtension.class)
 public class AuthenticationServiceTest {
     @InjectMocks

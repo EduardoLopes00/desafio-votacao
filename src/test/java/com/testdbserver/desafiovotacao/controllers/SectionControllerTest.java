@@ -4,18 +4,19 @@ import com.testdbserver.desafiovotacao.data.models.Section;
 import com.testdbserver.desafiovotacao.infra.exceptions.InvalidDataException;
 import com.testdbserver.desafiovotacao.infra.exceptions.NotFoundException;
 import com.testdbserver.desafiovotacao.services.SectionService;
+import com.testdbserver.desafiovotacao.services.VoteService;
 import com.testdbserver.desafiovotacao.utils.TestUtilsFunctions;
 import com.testdbserver.desafiovotacao.utils.mocks.SectionMocks;
 import com.testdbserver.desafiovotacao.web.DTO.SearchSectionsFiltersDTO;
 import com.testdbserver.desafiovotacao.web.DTO.SectionDTO;
 import com.testdbserver.desafiovotacao.web.controllers.SectionController;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
+
 
 import java.util.UUID;
 
@@ -27,15 +28,19 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(SectionController.class)
-public class SectionControllerTest {
-    private final String basePath = "/section";
-
+public class SectionControllerTest extends BasicControllerTest {
     @MockBean
     private SectionService sectionService;
-    @Autowired
-    private MockMvc mockMvc;
+
+    @MockBean
+    private VoteService voteService;
+
+    protected SectionControllerTest() {
+        super("/section");
+    }
 
     @Test
+    @WithMockUser
     public void shouldReturn200_WhenRequestGetSectionByIdIsCalledWithExistingId() throws Exception {
         when(sectionService.getSectionById(SectionMocks.SECTION_ID_1)).thenReturn(SectionMocks.SECTION_1());
 
@@ -46,6 +51,7 @@ public class SectionControllerTest {
     }
 
     @Test
+    @WithMockUser
     public void shouldReturn404_WhenRequestGetSectionByIdIsCalledWithNonexistentId() throws Exception {
         UUID nonExistentSectionid = UUID.fromString("78709680-0978-4bb5-8150-d40050101a47");
 
@@ -60,6 +66,7 @@ public class SectionControllerTest {
     }
 
     @Test
+    @WithMockUser
     public void shouldReturn201_WhenRequestCreateSectionWithValidData() throws Exception {
         Section testingSection = SectionMocks.SECTION_1();
 
@@ -75,6 +82,7 @@ public class SectionControllerTest {
     }
 
     @Test
+    @WithMockUser
     public void shouldReturn500_WhenCreateSectionWithInvalidDtStart() throws Exception {
         Section testingSection = SectionMocks.SECTION_1();
 
@@ -88,6 +96,7 @@ public class SectionControllerTest {
     }
 
     @Test
+    @WithMockUser
     public void shouldReturn200_WhenGetAllSectionsIsCalledWithFilters() throws Exception {
         when(sectionService.searchSections(any(SearchSectionsFiltersDTO.class))).thenReturn(SectionMocks.SECTION_LIST_DTO());
 

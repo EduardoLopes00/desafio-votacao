@@ -1,21 +1,17 @@
 package com.testdbserver.desafiovotacao.controllers;
 
-import com.testdbserver.desafiovotacao.data.models.Associate;
 import com.testdbserver.desafiovotacao.data.models.Pauta;
 import com.testdbserver.desafiovotacao.infra.exceptions.NotFoundException;
 import com.testdbserver.desafiovotacao.services.PautaService;
 import com.testdbserver.desafiovotacao.utils.TestUtilsFunctions;
-import com.testdbserver.desafiovotacao.utils.mocks.AssociateMocks;
 import com.testdbserver.desafiovotacao.utils.mocks.PautaMocks;
-import com.testdbserver.desafiovotacao.web.DTO.AssociateDTO;
 import com.testdbserver.desafiovotacao.web.DTO.PautaDTO;
 import com.testdbserver.desafiovotacao.web.controllers.PautaController;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
 import java.util.UUID;
@@ -28,15 +24,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(PautaController.class)
-public class PautaControllerTest {
-    private final String basePath = "/pauta";
-
+public class PautaControllerTest extends BasicControllerTest {
     @MockBean
     private PautaService pautaService;
-    @Autowired
-    private MockMvc mockMvc;
 
+    protected PautaControllerTest() {
+        super("/pauta");
+    }
     @Test
+    @WithMockUser
     public void shouldReturn200_WhenRequestGetPautaByIdIsCalledWithExistingId() throws Exception {
         when(pautaService.getPautaById(PautaMocks.DEFAULT_PAUTA_ID)).thenReturn(PautaMocks.DEFAULT_PAUTA());
 
@@ -45,6 +41,7 @@ public class PautaControllerTest {
     }
 
     @Test
+    @WithMockUser
     public void shouldReturn404_WhenRequestGetPautaByIdIsCalledWithNonexistentId() throws Exception {
         UUID nonexistentPautaId = UUID.fromString("e12c91e6-c617-464b-9cd1-9c8fbd76a6b6");
 
@@ -55,6 +52,7 @@ public class PautaControllerTest {
     }
 
     @Test
+    @WithMockUser
     public void shouldReturn201_WhenRequestCreatePautaWithValidData() throws Exception {
         Pauta testingPauta = PautaMocks.DEFAULT_PAUTA();
 
